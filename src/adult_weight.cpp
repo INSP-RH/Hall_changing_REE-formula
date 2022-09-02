@@ -68,11 +68,11 @@
 Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
              NumericVector sexstring, NumericMatrix input_EIchange,
              NumericMatrix input_NAchange, NumericVector physicalactivity,
-             NumericVector percentc, NumericVector percentb, double input_dt, bool checkValues){
+             NumericVector percentc, NumericVector percentb, double input_dt, double input_REE_formula, bool checkValues){
     
     //Build model from parameters
     build(weight, height, age_yrs, sexstring, input_EIchange, input_NAchange,
-          physicalactivity, percentc, percentb, input_dt, checkValues);
+          physicalactivity, percentc, percentb, input_dt, input_REE_formula, checkValues);
     
 }
 
@@ -80,13 +80,13 @@ Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
 Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
              NumericVector sexstring, NumericMatrix input_EIchange,
              NumericMatrix input_NAchange, NumericVector physicalactivity,
-             NumericVector percentc, NumericVector percentb, double input_dt, NumericVector extradata,
+             NumericVector percentc, NumericVector percentb, double input_dt,  double input_REE_formula, NumericVector extradata,
              bool checkValues, bool isEnergy){
     
     
     //Build model from parameters
     build(weight, height, age_yrs, sexstring, input_EIchange, input_NAchange,
-          physicalactivity, percentc, percentb, input_dt, extradata, checkValues, isEnergy);
+          physicalactivity, percentc, percentb, input_dt, input_REE_formula, extradata, checkValues, isEnergy);
     
 }
 
@@ -94,13 +94,13 @@ Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
 Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
              NumericVector sexstring, NumericMatrix input_EIchange,
              NumericMatrix input_NAchange, NumericVector physicalactivity,
-             NumericVector percentc, NumericVector percentb, double input_dt, NumericVector input_EI,
+             NumericVector percentc, NumericVector percentb, double input_dt,  double input_REE_formula, NumericVector input_EI,
              NumericVector input_fat, bool checkValues){
     
     
     //Build model from parameters
     build(weight, height, age_yrs, sexstring, input_EIchange, input_NAchange,
-          physicalactivity, percentc, percentb, input_dt ,input_EI, input_fat, checkValues);
+          physicalactivity, percentc, percentb, input_dt, input_REE_formula, input_EI, input_fat, checkValues);
     
 }
 
@@ -108,10 +108,11 @@ Adult::Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
 void Adult::build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                   NumericVector sexstring, NumericMatrix input_EIchange,
                   NumericMatrix input_NAchange, NumericVector physicalactivity,
-                  NumericVector percentc, NumericVector percentb, double input_dt, bool checkValues){
+                  NumericVector percentc, NumericVector percentb, double input_dt, double input_REE_formula, bool checkValues){
     
     //Assign parameters
     dt         = input_dt; //Time step set to 1 because of matrix use (each time is a row in EIchange)
+    REE_formula= input_REE_formula
     bw         = weight;
     ht         = height;
     age        = age_yrs;
@@ -125,7 +126,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Get energy
     getParameters();
-    getRMR();
+    getRMR(REE_formula);
     getATinit();
     getECFinit();
     getBaselineMass();
@@ -140,11 +141,12 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
 void Adult::build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                   NumericVector sexstring, NumericMatrix input_EIchange,
                   NumericMatrix input_NAchange, NumericVector physicalactivity,
-                  NumericVector percentc, NumericVector percentb, double input_dt,
+                  NumericVector percentc, NumericVector percentb, double input_dt, double input_REE_formula,
                   NumericVector extradata, bool checkValues, bool isEnergy){
     
     //Assign parameters
     dt         = input_dt; //For rk4
+    REE_formula= input_REE_formula
     bw         = weight;
     ht         = height;
     age        = age_yrs;
@@ -158,7 +160,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Get additional information
     getParameters();
-    getRMR();
+    getRMR(REE_formula);
     getATinit();
     getECFinit();
     
@@ -187,11 +189,12 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
 void Adult::build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                   NumericVector sexstring, NumericMatrix input_EIchange,
                   NumericMatrix input_NAchange, NumericVector physicalactivity,
-                  NumericVector percentc, NumericVector percentb, double input_dt,
+                  NumericVector percentc, NumericVector percentb, double input_dt, double input_REE_formula,
                   NumericVector input_EI, NumericVector input_fat, bool checkValues){
     
     //Assign parameters
     dt         = input_dt; //For rk4
+    REE_formula= input_REE_formula
     bw         = weight;
     ht         = height;
     age        = age_yrs;
@@ -205,7 +208,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Get additional information
     getParameters();
-    getRMR();
+    getRMR(REE_formula);
     getATinit();
     getECFinit();
     
@@ -257,11 +260,18 @@ void Adult::getParameters(void){
 }
 
 //Estimation of Resting Metabolic Rate (rmr) in kcal
-void Adult::getRMR(void){
+void Adult::getRMR(double input_REE_formula){
+  
+  if(input_REE_formula == 1){
     //These equations come from Miffin & St.Jeor
     //Recall that sex = 0 => "male" and sex = 1 => "female"
     rmr = (rmrbw*bw + rmrht*ht - rmrage*age + rmr_m)*(1-sex) +
-    (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex;
+    (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex; }else{
+    
+    // Harris and Bennedict
+   rmr = ifelse(sex == 1, 9.247*bw + 309.8*ht - 4.33*age + 477.593,
+                     13.397*bw + 479.9*ht - 5.677*age + 88.362);
+  }
 }
 
 //Estimation of calories at baseline
