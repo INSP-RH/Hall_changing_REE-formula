@@ -194,7 +194,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Assign parameters
     dt         = input_dt; //For rk4
-    REE_formula= input_REE_formula
+    REE_formula= input_REE_formula;
     bw         = weight;
     ht         = height;
     age        = age_yrs;
