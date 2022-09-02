@@ -124,7 +124,7 @@ private:
     double rmr_f;
     int    nind; //Number of individuals in model
     double dt;   //Delta t for Rungue Kutta 4
-    double input_REE_formula; // Formula REE: 1 = Mifflin, 2 = Harris,
+    double REE_formula; // Formula REE: 1 = Mifflin, 2 = Harris,
     bool check;
     
     //Auxiliary functions
