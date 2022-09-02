@@ -208,7 +208,7 @@ adult_weight <- function(bw, ht, age, sex,
                              
   
   if(is.na(new_REE_formula)){
-  stop(paste0("Invalid REE formula. Please specify 'Mifflin', 'Harris', 'Owen', 'WHO', or 'IOM'")
+  stop("Invalid REE formula. Please specify 'Mifflin', 'Harris', 'Owen', 'WHO', or 'IOM'")
   }
   
   #Check fat/energy are inputted
