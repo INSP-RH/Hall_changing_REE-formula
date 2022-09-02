@@ -207,7 +207,7 @@ adult_weight <- function(bw, ht, age, sex,
                                                ifelse(REE_formula == "IOM", 5, NA)))))
                              
   
-  if(is.na(new_REE_formula){
+  if(is.na(new_REE_formula)){
   stop(paste0("Invalid REE formula. Please specify 'Mifflin', 'Harris', 'Owen', 'WHO', or 'IOM'")
   }
   
