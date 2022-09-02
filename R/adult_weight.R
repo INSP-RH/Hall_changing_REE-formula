@@ -106,7 +106,7 @@ adult_weight <- function(bw, ht, age, sex,
                          EI = NA, fat = rep(NA, length(bw)),
                          PAL = rep(1.5, length(bw)), 
                          pcarb_base = rep(0.5, length(bw)), 
-                         pcarb = pcarb_base,  days = 365, dt = 1,
+                         pcarb = pcarb_base,  days = 365, dt = 1, REE_formula = "Mifflin",
                          checkValues = TRUE){
   
   #Check that EIchange and Nachange are matrices
@@ -198,6 +198,19 @@ adult_weight <- function(bw, ht, age, sex,
   newsex                         <- rep(0, length(sex))
   newsex[which(sex == "female")] <- 1
   
+  
+  # Change REE formula to numeric for c++
+  new_REE_formula  <- ifelse(REE_formula == "Mifflin", 1,
+                             ifelse(REE_formula == "Harris", 2,
+                                   ifelse(REE_formula == "Owen", 3,
+                                         ifelse(REE_formula == "WHO", 4,
+                                               ifelse(REE_formula == "IOM", 5, NA)))))
+                             
+  
+  if(is.na(new_REE_formula){
+  stop(paste0("Invalid REE formula. Please specify 'Mifflin', 'Harris', 'Owen', 'WHO', or 'IOM'")
+  }
+  
   #Check fat/energy are inputted
   isfat <- any(is.na(fat))
   isEI  <- any(is.na(EI))
@@ -210,16 +223,16 @@ adult_weight <- function(bw, ht, age, sex,
   #on if you have energy intake or fat intake or not.
   if (isfat && isEI){
     wl <- adult_weight_wrapper(bw, ht, age, newsex, EIchange, NAchange,
-                               PAL, pcarb_base, pcarb, dt, ceiling(days), checkValues)  
+                               PAL, pcarb_base, pcarb, dt, new_REE_formula, ceiling(days), checkValues)  
   } else if (!isEI && isfat) {
     wl <- adult_weight_wrapper_EI(bw, ht, age, newsex, EIchange, NAchange,
-                                  PAL, pcarb_base, pcarb, dt, EI, ceiling(days), checkValues, TRUE)  
+                                  PAL, pcarb_base, pcarb, dt, new_REE_formula, EI, ceiling(days), checkValues, TRUE)  
   } else if (isEI && !isfat) {
     wl <- adult_weight_wrapper_EI(bw, ht, age, newsex, EIchange, NAchange,
-                                  PAL, pcarb_base, pcarb, dt, fat, ceiling(days), checkValues, FALSE)  
+                                  PAL, pcarb_base, pcarb, dt, new_REE_formula, fat, ceiling(days), checkValues, FALSE)  
   } else if (!isEI && !isfat){
     wl <- adult_weight_wrapper_EI_fat(bw, ht, age, newsex, EIchange, NAchange,
-                                      PAL, pcarb_base, pcarb, dt, EI, fat, ceiling(days), checkValues)  
+                                      PAL, pcarb_base, pcarb, dt, new_REE_formula, EI, fat, ceiling(days), checkValues)  
   }
   if(wl$Correct_Values[1]==FALSE){
     stop("One of the variables takes either negative values, or NaN, NA or infinity")
