@@ -112,7 +112,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Assign parameters
     dt         = input_dt; //Time step set to 1 because of matrix use (each time is a row in EIchange)
-    REE_formula= input_REE_formula
+    REE_formula= input_REE_formula;
     bw         = weight;
     ht         = height;
     age        = age_yrs;
@@ -146,7 +146,7 @@ void Adult::build(NumericVector weight, NumericVector height, NumericVector age_
     
     //Assign parameters
     dt         = input_dt; //For rk4
-    REE_formula= input_REE_formula
+    REE_formula= input_REE_formula;
     bw         = weight;
     ht         = height;
     age        = age_yrs;
