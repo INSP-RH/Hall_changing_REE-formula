@@ -43,20 +43,20 @@ public:
     Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
           NumericVector sexstring, NumericMatrix input_EIchange,
           NumericMatrix input_NAchange, NumericVector physicalactivity,
-          NumericVector percentc, NumericVector percentb, double dt, bool checkValues);
+          NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula, bool checkValues);
     
     //Constructor for when initial energy or initial fat intake is added by user
     Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
           NumericVector sexstring, NumericMatrix input_EIchange,
           NumericMatrix input_NAchange, NumericVector physicalactivity,
-          NumericVector percentc, NumericVector percentb, double dt,
+          NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula,
           NumericVector extradata, bool checkValues, bool isEnergy);
     
     //Constructor for when initial energy intake and initial fat is added by user
     Adult(NumericVector weight, NumericVector height, NumericVector age_yrs,
           NumericVector sexstring, NumericMatrix input_EIchange,
           NumericMatrix input_NAchange, NumericVector physicalactivity,
-          NumericVector percentc, NumericVector percentb, double dt,
+          NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula,
           NumericVector input_EI, NumericVector input_fat, bool checkValues);
     
     //Destroyer
@@ -124,10 +124,11 @@ private:
     double rmr_f;
     int    nind; //Number of individuals in model
     double dt;   //Delta t for Rungue Kutta 4
+    double input_REE_formula; // Formula REE: 1 = Mifflin, 2 = Harris,
     bool check;
     
     //Auxiliary functions
-    void getRMR(void);
+    void getRMR(double input_REE_formula);
     void getParameters(void);
     void getBaselineMass(void);
     void getCaloricSteadyState(void);
@@ -140,16 +141,16 @@ private:
     void build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                NumericVector sexstring, NumericMatrix input_EIchange,
                NumericMatrix input_NAchange, NumericVector physicalactivity,
-               NumericVector percentc, NumericVector percentb, double dt, bool checkValues);
+               NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula, bool checkValues);
     void build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                NumericVector sexstring, NumericMatrix input_EIchange,
                NumericMatrix input_NAchange, NumericVector physicalactivity,
-               NumericVector percentc, NumericVector percentb, double dt, NumericVector extradata,
+               NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula, NumericVector extradata,
                bool checkValues, bool isEnergy);
     void build(NumericVector weight, NumericVector height, NumericVector age_yrs,
                NumericVector sexstring, NumericMatrix input_EIchange,
                NumericMatrix input_NAchange, NumericVector physicalactivity,
-               NumericVector percentc, NumericVector percentb, double dt, NumericVector input_EI,
+               NumericVector percentc, NumericVector percentb, double dt, double input_REE_formula, NumericVector input_EI,
                NumericVector input_fat,bool checkValues);
     NumericVector TotalIntake (double t);
     StringVector  BMIClassifier(NumericVector BMI);
