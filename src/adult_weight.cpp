@@ -267,9 +267,7 @@ void Adult::getRMR(double input_REE_formula){
     //Recall that sex = 0 => "male" and sex = 1 => "female"
     rmr = (rmrbw*bw + rmrht*ht - rmrage*age + rmr_m)*(1-sex) +
     (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex; 
-  }
-  
-  if(input_REE_formula == 2){
+  }else{
     
     // Harris and Bennedict
    rmr = (13.397*bw + 479.9*ht - 5.677*age + 88.362)*(1-sex) +
