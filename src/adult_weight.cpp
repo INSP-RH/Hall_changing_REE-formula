@@ -271,13 +271,16 @@ void Adult::getRMR(double input_REE_formula){
   
   if(input_REE_formula == 2){
     
-    // Harris and Bennedict: https://doi.org/10.1073/pnas.4.12.370
-   rmr = (13.397*bw + 479.9*ht - 5.677*age + 88.362)*(1-sex) +
-         (9.247*bw + 309.8*ht - 4.33*age + 447.593)*sex;
-             
+    // Harris and Bennedict: https://doi.org/10.1073/pnas.4.12.370     
+    rmr = (13.397*bw + 479.9*ht - 5.677*age + 88.362)*(1-sex) +
+          (9.247*bw + 309.8*ht - 4.33*age + 447.593)*sex;  
   }
   
-  
+ if(input_REE_formula == 3){
+   
+   // Owen : https://doi.org/10.1093/ajcn/44.1.1   and  https://doi.org/10.1093/ajcn/46.6.875
+    rmr = (879 + 10.2*bw)*(1-sex) +
+          (795 + 7.18*bw)*sex;   
 }
 
 //Estimation of calories at baseline
