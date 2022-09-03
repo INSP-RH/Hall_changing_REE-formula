@@ -263,15 +263,17 @@ void Adult::getParameters(void){
 void Adult::getRMR(double input_REE_formula){
   
   if(input_REE_formula == 1){
-    //These equations come from Miffin & St.Jeor
+    //These equations come from Miffin & St.Jeor: https://doi.org/10.1093/ajcn/51.2.241
     //Recall that sex = 0 => "male" and sex = 1 => "female"
     rmr = (rmrbw*bw + rmrht*ht - rmrage*age + rmr_m)*(1-sex) +
     (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex; 
-  }else{
+  }
+  
+  if(input_REE_formula == 2){
     
-    // Harris and Bennedict
+    // Harris and Bennedict: https://doi.org/10.1073/pnas.4.12.370
    rmr = (13.397*bw + 479.9*ht - 5.677*age + 88.362)*(1-sex) +
-         (9.247*bw + 309.8*ht - 4.33*age + 477.593)*sex;
+         (9.247*bw + 309.8*ht - 4.33*age + 447.593)*sex;
              
   }
   
