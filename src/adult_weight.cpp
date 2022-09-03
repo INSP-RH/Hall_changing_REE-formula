@@ -279,6 +279,17 @@ void Adult::getRMR(double input_REE_formula){
    // Owen : https://doi.org/10.1093/ajcn/44.1.1   and  https://doi.org/10.1093/ajcn/46.6.875
     rmr = (879 + 10.2*bw)*(1-sex) +
           (795 + 7.18*bw)*sex;}
+  
+ if(input_REE_formula == 4){  
+    // WHO :https://apps.who.int/iris/handle/10665/39527
+ 
+ NumericVector  age_cat_19_30 = ifelse((age>= 19 & age < 31), 1, 0);
+ NumericVector  age_cat_31_60 = ifelse((age>= 31 & age < 61), 1, 0);  
+ NumericVector  age_cat_60_plus = ifelse((age>=61), 1, 0);   
+   
+   rmr =   (1-sex)*( (age_cat_19_30)*(15.3*bw + 679) + (age_cat_31_60)*(11.6*bw + 879) + (age_cat_60_plus)*(13.5*bw + 487) ) +
+               sex*( (age_cat_19_30)*(14.7*bw + 496) + (age_cat_31_60)*( 8.7*bw + 829) + (age_cat_60_plus)*(10.5*bw + 596) );}
+   
 }
 
 //Estimation of calories at baseline
