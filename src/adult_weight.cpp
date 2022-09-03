@@ -266,12 +266,16 @@ void Adult::getRMR(double input_REE_formula){
     //These equations come from Miffin & St.Jeor
     //Recall that sex = 0 => "male" and sex = 1 => "female"
     rmr = (rmrbw*bw + rmrht*ht - rmrage*age + rmr_m)*(1-sex) +
-    (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex; }else{
+    (rmrbw*bw + rmrht*ht - rmrage*age - rmr_f)*sex; }
+  
+  if(input_REE_formula == 2){
     
     // Harris and Bennedict
    rmr = ifelse(sex == 1, 9.247*bw + 309.8*ht - 4.33*age + 477.593,
                      13.397*bw + 479.9*ht - 5.677*age + 88.362);
   }
+  
+  
 }
 
 //Estimation of calories at baseline
