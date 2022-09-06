@@ -283,9 +283,9 @@ void Adult::getRMR(double input_REE_formula){
  if(input_REE_formula == 4){  
    
    // WHO :https://apps.who.int/iris/handle/10665/39527
- NumericVector  age_cat_19_30 = ifelse((age>= 19 & age < 31), 1.0, 0.0);
- NumericVector  age_cat_31_60 = ifelse((age>= 31 & age < 61), 1.0, 0.0);  
- NumericVector  age_cat_60_plus = ifelse((age>=61), 1.0, 0.0);   
+ NumericVector  age_cat_19_30 = ifelse( ( (age>= 19) & (age < 31) ), 1.0, 0.0);
+ NumericVector  age_cat_31_60 = ifelse( ( (age>= 31) & (age < 61) ), 1.0, 0.0);  
+ NumericVector  age_cat_60_plus = ifelse( (age>=61), 1.0, 0.0);   
    
    rmr =   (1-sex)*( (age_cat_19_30)*(15.3*bw + 679) + (age_cat_31_60)*(11.6*bw + 879) + (age_cat_60_plus)*(13.5*bw + 487) ) +
                sex*( (age_cat_19_30)*(14.7*bw + 496) + (age_cat_31_60)*( 8.7*bw + 829) + (age_cat_60_plus)*(10.5*bw + 596) );}
