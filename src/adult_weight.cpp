@@ -292,7 +292,7 @@ void Adult::getRMR(double input_REE_formula){
   
   if(input_REE_formula == 5){ 
  
-    // IOM (= EE = 1.5*RMR)
+    // IOM (= EE = PAL*RMR)
  NumericVector bmi = bw/(pow(ht,2));
  NumericVector Under_or_Normal = ifelse(bmi<25, 1.0, 0.0);   
  NumericVector Over_or_obese = ifelse(bmi>=25, 1.0, 0.0); 
