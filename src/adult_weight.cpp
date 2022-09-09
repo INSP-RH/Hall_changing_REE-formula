@@ -287,8 +287,8 @@ void Adult::getRMR(double input_REE_formula){
  NumericVector  age_cat_31_60 = ifelse( ( (age>= 31) & (age < 61) ), 1.0, 0.0);  
  NumericVector  age_cat_60_plus = ifelse( (age>=61), 1.0, 0.0);   
    
-   rmr =   (1-sex)*( (age_cat_19_30)*(15.3*bw + 679) + (age_cat_31_60)*(11.6*bw + 879) + (age_cat_60_plus)*(13.5*bw + 487) ) +
-               sex*( (age_cat_19_30)*(14.7*bw + 496) + (age_cat_31_60)*( 8.7*bw + 829) + (age_cat_60_plus)*(10.5*bw + 596) );}
+   rmr =   (1-sex)*( (age_cat_19_30)*(15.057*bw + 692.2) + (age_cat_31_60)*(11.472*bw + 873.1) + (age_cat_60_plus)*(11.711*bw + 587.7) ) +
+               sex*( (age_cat_19_30)*(14.818*bw + 486.6) + (age_cat_31_60)*( 8.126*bw + 845.6) + (age_cat_60_plus)*( 9.082*bw + 658.5) );}
   
   if(input_REE_formula == 5){ 
  
