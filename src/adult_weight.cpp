@@ -251,11 +251,11 @@ void Adult::getParameters(void){
     C       = 10.4*(roL/roF);
     alfa1  = -(1 + etaL/roL)*C;     //Auxiliary functions from Pablo
     alfa2  = -(1 + etaF/roF);       //Auxiliary functions from Pablo
-    rmrbw  = 9.99;        //Linear regression coefficient for rmr estimation
-    rmrage = 4.92;        //Linear regression coefficient for rmr estimation
-    rmrht  = 625.0;       //Linear regression coefficient for rmr estimation
-    rmr_m  = 5.0;         //Linear regression coefficient for rmr estimation (men)
-    rmr_f  = 161.0;       //Linear regression coefficient for rmr estimation (women)
+    rmrbw  = 9.99;        //Linear regression coefficient for rmr estimation (Harris formula)
+    rmrage = 4.92;        //Linear regression coefficient for rmr estimation (Harris formula)
+    rmrht  = 625.0;       //Linear regression coefficient for rmr estimation (Harris formula)
+    rmr_m  = 5.0;         //Linear regression coefficient for rmr estimation (Harris formula for men)
+    rmr_f  = 161.0;       //Linear regression coefficient for rmr estimation (Harris formula for women)
     G_base = NumericVector(nind, 0.5);
 }
 
